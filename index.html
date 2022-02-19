@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<style>
+    #container{
+        display: flex;
+        height:1850px;
+    }
+    #sidebar{
+     flex:3;
+     border:1px solid black;
+    }
+    #main{
+        flex:7;
+        border:1px solid black;
+        display: grid;
+        grid-template-columns: repeat(3,30%);
+        grid-gap:3%;
+    }
+    #pic{
+        height:300px;
+        width:300px;
+    }
+    #mini_div{
+        margin-left:10%;
+    }
+   
+</style>
+<body>
+    <div id = "container">
+    <div id = "sidebar">
+    
+    </div>
+    <div id = "main"> 
+
+    </div>
+    </div>
+</body>
+</html> 
+<script type="module">
+
+import sidebar from "./components/sidebar.js";
+
+//import makeAPICall form "./scripts/main.js";
+import { makeAPICall, appendPicture } from "./scripts/main.js";
+
+let sidebar_div = document.getElementById("sidebar");
+
+sidebar_div.innerHTML = sidebar();
+
+let  image_data = await makeAPICall("https://api.unsplash.com/photos/?query=${city}&client_id=TnpoTGKKgbYNfMXhHISwqxNDCySwwrqJme9tnzb0QaA")
+console.log(image_data)
+
+let parent = document.getElementById("main");
+
+appendPicture(image_data, parent);
+
+
+let input = document.getElementById("searchbar")
+
+input.addEventListener("keypress",(e)=>{
+    if(e.key =="Eenter"){
+       let input_value = document.getElementById("searchbar").value;
+
+       localStorage.setItem("search_term", input_value);
+
+       window.location.href = "search.html";
+
+    }
+});
+</script>
